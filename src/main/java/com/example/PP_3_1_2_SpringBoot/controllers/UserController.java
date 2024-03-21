@@ -1,26 +1,22 @@
 package com.example.PP_3_1_2_SpringBoot.controllers;
 
 import com.example.PP_3_1_2_SpringBoot.models.User;
-import com.example.PP_3_1_2_SpringBoot.services.UserService;
+import com.example.PP_3_1_2_SpringBoot.services.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 
@@ -57,7 +53,7 @@ public class UserController {
         return "edit";
     }
 
-    @PostMapping(value = "/user")
+    @PatchMapping(value = "/user")
     public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                          @RequestParam(value = "id", required = false) int id) {
         if (bindingResult.hasErrors()) {
@@ -67,7 +63,7 @@ public class UserController {
         return "redirect:/";
     }
 
-    @PostMapping(value = "/delete")
+    @DeleteMapping(value = "/user")
     public String delete(@RequestParam(value = "id", required = false) int id) {
         userService.delete(id);
         return "redirect:/";
